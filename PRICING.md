@@ -22,5 +22,8 @@ SecretArmor is the open-source developer-first secret leak prevention firewall. 
 
 ## Purchasing an Enterprise License
 
-* Instant checkout: [polar.sh/1nsharma-labs](https://polar.sh/1nsharma-labs)
-* Contact: `enterprise@1nsharma-labs.com`
+* **Direct Personal Email:** [amitsharma9976@gmail.com](mailto:amitsharma9976@gmail.com)
+* **Direct UPI / PhonePe / GPay / Paytm:** `6393741171` (UPI ID: `6393741171@upi`)
+* **Founder & Lead:** **Amit Sharma** (@1nsharma)
+* **Instant checkout:** [polar.sh/1nsharma-labs](https://polar.sh/1nsharma-labs)
+* **GitHub Sponsors:** [github.com/sponsors/1nsharma](https://github.com/sponsors/1nsharma)

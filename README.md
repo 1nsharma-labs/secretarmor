@@ -82,5 +82,8 @@ Explore our interconnected developer tools to slash costs and automate governanc
 
 ## 🤝 Sponsoring & Community
 
+* **Direct Personal Email:** [amitsharma9976@gmail.com](mailto:amitsharma9976@gmail.com)
+* **Direct UPI / PhonePe / GPay / Paytm:** `6393741171` (UPI ID: `6393741171@upi`)
+* **Founder & Lead:** **Amit Sharma** (@1nsharma)
 * **GitHub Sponsors:** [github.com/sponsors/1nsharma](https://github.com/sponsors/1nsharma)
-* **Maintained by:** [1nsharma-labs](https://github.com/1nsharma-labs)
+* **Polar.sh:** [polar.sh/1nsharma-labs](https://polar.sh/1nsharma-labs)
