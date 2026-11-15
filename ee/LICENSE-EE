@@ -1,0 +1,16 @@
+Business Source License 1.1
+Parameters:
+
+Licensor: 1nsharma-labs
+Licensed Work: SecretArmor Enterprise Edition (files located in the /ee directory of the SecretArmor repository)
+Change Date: 2030-01-01
+Change License: Apache License, Version 2.0
+
+Additional Use Grant:
+You may make use of the Licensed Work without fee:
+1. In non-production environments for evaluation, development, and testing purposes.
+2. In single-repository local developer environments for pre-commit scanning.
+
+For multi-repo enterprise scanning, centralized SIEM/Slack security alerting, and automated key revocation webhooks, you must obtain a valid commercial Enterprise License Key from 1nsharma-labs (https://github.com/1nsharma-labs/secretarmor).
+
+Copyright 2026 1nsharma-labs. All rights reserved.

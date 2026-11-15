@@ -1,0 +1,34 @@
+{
+  "name": "secretarmor",
+  "version": "1.0.0",
+  "description": "The Open-Source Zero-Trust Secret Sprawl & API Key Leak Prevention Firewall",
+  "main": "core/src/cli.js",
+  "bin": {
+    "secretarmor": "./core/src/cli.js"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node core/src/cli.js scan",
+    "scan": "node core/src/cli.js scan",
+    "install-hook": "node core/src/cli.js install-hook",
+    "test": "node test/test_secretarmor.js"
+  },
+  "keywords": [
+    "secret-scanner",
+    "gitguardian-alternative",
+    "security",
+    "api-keys",
+    "pre-commit",
+    "trufflehog",
+    "devsecops"
+  ],
+  "author": "1nsharma-labs",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1nsharma-labs/secretarmor.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecretArmor | Interactive Zero-Trust Secret Scanner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0b0f17; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto mb-8 flex flex-col md:flex-row items-center justify-between gap-4 glass rounded-2xl p-6">
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-red-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-amber-500/20">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-2xl font-bold tracking-tight text-white">SecretArmor</h1>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-semibold border border-amber-500/30">v1.0.0</span>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-semibold border border-emerald-500/30">Zero-Trust</span>
+        </div>
+        <p class="text-xs text-gray-400">1nsharma-labs &bull; Zero-Trust Secret Sprawl & API Key Leak Prevention Firewall</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="https://github.com/1nsharma-labs/secretarmor" target="_blank" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-xs font-semibold text-gray-200 border border-gray-700 transition flex items-center gap-2">
+        <i class="fa-brands fa-github text-sm"></i> GitHub Repository
+      </a>
+      <a href="https://github.com/sponsors/1nsharma" target="_blank" class="px-4 py-2 rounded-xl bg-pink-600 hover:bg-pink-500 text-xs font-semibold text-white shadow-lg shadow-pink-600/30 transition flex items-center gap-2">
+        <i class="fa-solid fa-heart text-xs"></i> Sponsor
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto space-y-6">
+
+    <!-- Value Prop Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="glass p-5 rounded-2xl">
+        <div class="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-1">Pre-Commit Guard</div>
+        <div class="text-2xl font-extrabold text-amber-400">&lt; 10ms</div>
+        <p class="text-xs text-gray-400 mt-1">Blazing fast hook blocks leaks locally</p>
+      </div>
+
+      <div class="glass p-5 rounded-2xl">
+        <div class="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-1">Detectors</div>
+        <div class="text-2xl font-extrabold text-emerald-400">15+ Providers</div>
+        <p class="text-xs text-gray-400 mt-1">OpenAI, Claude, AWS, Stripe, GitHub, DBs</p>
+      </div>
+
+      <div class="glass p-5 rounded-2xl">
+        <div class="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-1">Supply-Chain Bloat</div>
+        <div class="text-2xl font-extrabold text-indigo-400">0 Dependencies</div>
+        <p class="text-xs text-gray-400 mt-1">Pure native Node.js ESM security</p>
+      </div>
+
+      <div class="glass p-5 rounded-2xl">
+        <div class="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-1">Enterprise Ready</div>
+        <div class="text-2xl font-extrabold text-purple-400">Slack & Teams</div>
+        <p class="text-xs text-gray-400 mt-1">Automated CI/CD webhook alerts</p>
+      </div>
+    </div>
+
+    <!-- Live In-Browser Scanner -->
+    <div class="glass p-6 rounded-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-shield-virus text-amber-400"></i>
+            Interactive Live Secret Scanner
+          </h2>
+          <p class="text-xs text-gray-400">Paste code, commit diffs, or env strings below. Scanned 100% locally in your browser with zero network transmission.</p>
+        </div>
+        <button id="load-sample-btn" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-semibold text-gray-300 border border-gray-700 transition">
+          <i class="fa-solid fa-file-code mr-1"></i> Load Vulnerable Sample
+        </button>
+      </div>
+
+      <textarea id="scan-input" rows="7" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 font-mono text-sm text-gray-200 focus:outline-none focus:border-amber-500 transition" placeholder="// Paste code, .env snippets, or git diffs here to test SecretArmor detection..."></textarea>
+
+      <div class="mt-4 flex items-center justify-between">
+        <button id="scan-btn" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white font-bold text-sm shadow-lg shadow-amber-500/20 transition flex items-center gap-2">
+          <i class="fa-solid fa-magnifying-glass"></i> Scan with SecretArmor
+        </button>
+        <span id="scan-status" class="text-xs text-gray-400">Ready to scan</span>
+      </div>
+
+      <!-- Results Box -->
+      <div id="results-container" class="mt-6 hidden">
+        <div id="results-header" class="p-4 rounded-xl border mb-4 flex items-center justify-between">
+          <!-- Dynamic -->
+        </div>
+        <div id="findings-list" class="space-y-3">
+          <!-- Dynamic -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Install Terminal Guide -->
+    <div class="glass p-6 rounded-2xl">
+      <h3 class="text-base font-bold text-white mb-2">⚡ 1-Line Git Pre-Commit Protection</h3>
+      <p class="text-xs text-gray-400 mb-4">Install SecretArmor pre-commit hook into any git repository with zero configuration:</p>
+      <div class="bg-black/60 border border-gray-800 rounded-xl p-4 font-mono text-xs text-emerald-400 flex items-center justify-between">
+        <span>npx @1nsharma-labs/secretarmor install-hook</span>
+        <button onclick="navigator.clipboard.writeText('npx @1nsharma-labs/secretarmor install-hook'); alert('Command copied!')" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-gray-300 text-[11px]">Copy</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const PATTERNS = [
+      { name: 'OpenAI API Key', severity: 'CRITICAL', regex: /sk-(?:proj-|live-)?[a-zA-Z0-9_-]{20,70}/g },
+      { name: 'Anthropic Claude API Key', severity: 'CRITICAL', regex: /sk-ant-api03-[a-zA-Z0-9_-]{80,120}/g },
+      { name: 'Google Gemini API Key', severity: 'HIGH', regex: /AIzaSy[a-zA-Z0-9_-]{33}/g },
+      { name: 'AWS Access Key ID', severity: 'HIGH', regex: /AKIA[0-9A-Z]{16}/g },
+      { name: 'AWS Secret Access Key', severity: 'CRITICAL', regex: /(?:aws_secret_access_key|secret_key)\s*[:=]\s*["']?([a-zA-Z0-9/+=]{40})["']?/gi },
+      { name: 'GitHub Personal Access Token', severity: 'CRITICAL', regex: /gh[pousr]_[a-zA-Z0-9]{36,255}/g },
+      { name: 'Stripe Secret Key', severity: 'CRITICAL', regex: /sk_live_[a-zA-Z0-9]{24,100}/g },
+      { name: 'Slack Bot Token', severity: 'HIGH', regex: /xoxb-[0-9]{11,13}-[0-9]{11,13}-[a-zA-Z0-9]{24}/g },
+      { name: 'Database Connection URI with Credentials', severity: 'CRITICAL', regex: /(?:postgres|postgresql|mysql|mongodb(?:\+srv)?):\/\/[^:\s]+:[^@\s]+@[^\s\/]+/gi }
+    ];
+
+    document.getElementById('load-sample-btn').addEventListener('click', () => {
+      document.getElementById('scan-input').value = `// config.js - Accidental developer commit\nconst OPENAI_API_KEY = "sk-proj-9999888877776666555544443333222211110000aaaa";\nconst AWS_KEY = "AKIA1234567890ABCDEF";\nconst DB_URI = "postgres://admin:SuperSecretPassword123@db.prod.internal:5432/app";\n\nmodule.exports = { OPENAI_API_KEY, AWS_KEY, DB_URI };`;
+      scan();
+    });
+
+    document.getElementById('scan-btn').addEventListener('click', scan);
+
+    function scan() {
+      const text = document.getElementById('scan-input').value;
+      const statusEl = document.getElementById('scan-status');
+      const resultsContainer = document.getElementById('results-container');
+      const resultsHeader = document.getElementById('results-header');
+      const findingsList = document.getElementById('findings-list');
+
+      if (!text.trim()) {
+        alert('Please enter or paste text to scan.');
+        return;
+      }
+
+      statusEl.innerText = 'Scanning...';
+      const findings = [];
+
+      for (const p of PATTERNS) {
+        let match;
+        const r = new RegExp(p.regex.source, p.regex.flags);
+        while ((match = r.exec(text)) !== null) {
+          findings.push({
+            name: p.name,
+            severity: p.severity,
+            matched: match[0],
+            index: match.index
+          });
+        }
+      }
+
+      resultsContainer.classList.remove('hidden');
+
+      if (findings.length === 0) {
+        statusEl.innerText = 'Scan Complete: Clean!';
+        resultsHeader.className = 'p-4 rounded-xl border border-emerald-500/30 bg-emerald-950/20 flex items-center justify-between';
+        resultsHeader.innerHTML = `
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i>
+            <div>
+              <h4 class="text-sm font-bold text-emerald-300">Clean Commit — No Secrets Detected</h4>
+              <p class="text-xs text-gray-400">Zero credentials found. Safe to push to remote.</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold text-xs">PASSED</span>
+        `;
+        findingsList.innerHTML = '';
+      } else {
+        statusEl.innerText = `Scan Complete: ${findings.length} leaks blocked!`;
+        resultsHeader.className = 'p-4 rounded-xl border border-rose-500/30 bg-rose-950/20 flex items-center justify-between';
+        resultsHeader.innerHTML = `
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-triangle-exclamation text-rose-500 text-xl"></i>
+            <div>
+              <h4 class="text-sm font-bold text-rose-400">COMMIT BLOCKED: ${findings.length} Leaked Secrets Found!</h4>
+              <p class="text-xs text-gray-400">SecretArmor pre-commit hook would reject this commit.</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-rose-500/20 text-rose-400 font-bold text-xs">BLOCKED</span>
+        `;
+
+        findingsList.innerHTML = findings.map(f => `
+          <div class="p-3 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-white">${f.name}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded font-bold ${f.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">${f.severity}</span>
+              </div>
+              <p class="text-xs font-mono text-gray-400 mt-1">Leak: ${f.matched.slice(0, 12)}••••••••</p>
+            </div>
+            <span class="text-xs text-rose-400 font-semibold flex items-center gap-1">
+              <i class="fa-solid fa-ban text-xs"></i> Blocked
+            </span>
+          </div>
+        `).join('');
+      }
+    }
+  </script>
+</body>
+</html>
