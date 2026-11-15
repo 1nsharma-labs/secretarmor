@@ -2,3 +2,9 @@ node_modules/
 .env
 *.log
 .DS_Store
+
+# Environment secrets
+.env.local
+.env.*.local
+.env.development
+.env.production
